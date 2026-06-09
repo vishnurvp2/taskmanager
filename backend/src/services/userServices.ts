@@ -1,15 +1,16 @@
-import { findUserByEmail, saveUserToDb } from "../repositories/repository";
+import { getUserFromDb, saveUserToDb } from "../repositories/repository";
+import bcrypt from "bcryptjs";
+import { hashPassword } from "../utility/passwordHashVerify";
+import { User, UserFromDb } from "../types/types";
 
-export const createNewUserAccount = (userData: any) => {
+export const createNewUserAccount = async (userData: User) => {
   // 1. Business Logic: Check if email is already taken
-  const existingUser = findUserByEmail(userData.email);
-  if (existingUser) {
+  const existingUser = getUserFromDb(userData.email);
+  if (existingUser !== undefined) {
     throw new Error("Email already registered");
   }
-
-  // 2. Business Logic: Hash the password here (e.g., using bcrypt)
-  // const hashedPassword = await bcrypt.hash(userData.password, 10);
-
+  // hash password
+  const hashedPassword = await hashPassword(userData.password);
   // 3. Pass clean data to the repository layer to be saved
-  return saveUserToDb(userData);
+  return saveUserToDb({ ...userData, password: hashedPassword });
 };

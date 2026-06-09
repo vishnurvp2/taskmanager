@@ -1,11 +1,25 @@
 import Database from "../config/database";
+import { User, UserFromDb } from "../types/types";
 
-export const saveUserToDb = async (userData: unknown) => {
+export const saveUserToDb = (userData: User) => {
   // save to database
-  return { id: 123, email: "" };
+  const insert = Database.prepare(
+    "INSERT INTO users (email, password_hash, name) VALUES (?, ?, ?) RETURNING *",
+  );
+  const insertedUser: UserFromDb | undefined = insert.get(
+    userData.email,
+    userData.password,
+    userData.name,
+  ) as UserFromDb | undefined;
+
+  return insertedUser;
 };
 
-export const findUserByEmail = (email: string): boolean => {
+export const getUserFromDb = (email: string) => {
   // get from database and check and return result
-  return true;
+  const getUserStatement = Database.prepare(
+    "SELECT * FROM users WHERE email = ?",
+  );
+  const userData = getUserStatement.get(email) as UserFromDb | undefined;
+  return userData;
 };
