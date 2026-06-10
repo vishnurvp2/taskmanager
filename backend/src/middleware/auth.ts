@@ -1,19 +1,12 @@
 import { Request, Response, NextFunction } from "express";
 import jwt from "jsonwebtoken";
 
-// 1. Extend Express Request type to include the user info
-export interface AuthenticatedRequest extends Request {
-  user: {
-    userId: number; // Matches the payload format from your login route
-  };
-}
-
 interface JwtPayload {
   userId: number;
 }
 
 export const authenticateToken = (
-  req: AuthenticatedRequest,
+  req: Request,
   res: Response,
   next: NextFunction,
 ) => {
@@ -30,7 +23,7 @@ export const authenticateToken = (
     const decoded = jwt.verify(token, secret) as JwtPayload;
 
     // 4. Attach the user data to the request object
-    req.user = { userId: decoded.userId };
+    res.locals.userId = decoded.userId;
 
     next(); // Move to the next middleware or route handler
   } catch (error) {

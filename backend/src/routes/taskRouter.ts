@@ -1,11 +1,9 @@
 import express from "express";
-import { authenticateToken, AuthenticatedRequest } from "../middleware/auth";
-import { createTask } from "../controllers/tasksController";
+import { authenticateToken } from "../middleware/auth";
+import { createTask, getTasks } from "../controllers/tasksController";
 const taskRouter = express.Router();
 
-taskRouter.get("/", (req, res) => {
-  res.send("got get request to get all tasks");
-});
+taskRouter.get("/", authenticateToken, getTasks);
 
 taskRouter.get("/:id", (req, res) => {
   const taskId = req.params.id;

@@ -42,8 +42,8 @@ export const saveTaskToDb = (data: Task) => {
 
   return result;
 };
-export const getTasksFromDb = (userId: number) => {
+export const getAllTasksOfUserFromDb = (userId: number) => {
   const insert = Database.prepare("SELECT * FROM tasks where user_id = ?;");
-  const result = insert.get(userId) as TaskFromDb | undefined;
+  const result = insert.all(userId) as unknown as TaskFromDb[] | undefined;
   return result;
 };
