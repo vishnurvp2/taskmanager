@@ -4,6 +4,7 @@ import authRouter from "./routes/authRouter";
 import taskRouter from "./routes/taskRouter";
 import Logger from "./middleware/logger";
 import errorHandler from "./middleware/errorHandler";
+import cookieParser from "cookie-parser";
 
 const app = express();
 
@@ -15,6 +16,7 @@ app.get("/", (req: Request, res: Response): void => {
   res.send("Hello");
 });
 
+app.use(cookieParser());
 app.use("/auth", authRouter);
 app.use("/tasks", taskRouter);
 app.use(errorHandler);
