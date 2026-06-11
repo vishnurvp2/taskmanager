@@ -1,14 +1,12 @@
-import LogIn from "./components/login";
-import SignUp from "./components/signup";
+import LoginSignup from "./components/loginSignup";
 
 function App() {
   return (
     <>
-      <h1 className="mt-10 text-center text-4xl/9 font-bold tracking-tight text-gray-900">
+      <h1 className="my-10 text-center text-4xl/9 font-medium tracking-tight text-orange-900">
         Task Manager
       </h1>
-      <LogIn />
-      <SignUp />
+      <LoginSignup />
     </>
   );
 }

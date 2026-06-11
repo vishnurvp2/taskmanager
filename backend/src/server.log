@@ -42,3 +42,13 @@ GET /tasks/ 2026-06-10T11:18:08.120Z
 GET /tasks/ 2026-06-10T11:21:18.636Z
 POST /tasks/ 2026-06-10T11:22:20.117Z
 GET /tasks/ 2026-06-10T11:22:33.771Z
+OPTIONS /auth/login 2026-06-11T12:21:36.390Z
+POST /auth/login 2026-06-11T12:32:45.733Z
+POST /auth/login_signup 2026-06-11T12:37:04.928Z
+POST /auth/login_signup 2026-06-11T12:42:40.988Z
+POST /auth/login_signup 2026-06-11T12:43:26.101Z
+POST /auth/login_signup 2026-06-11T12:43:34.570Z
+POST /auth/login_signup 2026-06-11T12:43:45.888Z
+POST /auth/login_signup 2026-06-11T12:43:52.638Z
+POST /auth/login_signup 2026-06-11T12:49:57.925Z
+POST /auth/login_signup 2026-06-11T12:52:32.244Z
