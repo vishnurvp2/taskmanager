@@ -1,8 +1,5 @@
 import { Request, Response } from "express";
-import {
-  createNewUserAccount,
-  loginToUserAccount,
-} from "../services/userServices";
+import { createNewUserAccount, getUserAccount } from "../services/userServices";
 import { UserFromDb } from "../types/types";
 import jwt from "jsonwebtoken";
 
@@ -32,7 +29,7 @@ export const registerUser = async (req: Request, res: Response) => {
 export const loginUser = async (req: Request, res: Response) => {
   try {
     const { email, password } = req.body;
-    const user = await loginToUserAccount(email, password);
+    const user = await getUserAccount(email, password);
     if (!user) {
       return res.status(401).json({ error: "Invalid email or password" });
     }
@@ -58,29 +55,11 @@ export const loginUser = async (req: Request, res: Response) => {
 };
 
 export const loginOrSignupUser = async (req: Request, res: Response) => {
-  try {
-    const { email, password } = req.body;
-    const user = await loginToUserAccount(email, password);
-    if (!user) {
-      return registerUser(req, res);
-    }
-    const token = jwt.sign(
-      { userId: user.id },
-      process.env.JWT_SECRET || "your_fallback_secret",
-      { expiresIn: "10d" },
-    );
-    res.cookie("token", token, {
-      httpOnly: true, // Prevents client-side scripts from reading the cookie
-      secure: process.env.NODE_ENV === "production", // Use HTTPS only in production
-      sameSite: "strict", // Protects against CSRF attacks
-      maxAge: TEN_DAYS_IN_MS, // Forces cookie deletion after exactly 10 days
-    });
-
-    return res.status(200).json({
-      message: "Login successful",
-      userId: user.id,
-    });
-  } catch (error: any) {
-    return res.status(500).json({ message: "Internal server Error" });
+  const { email, password, name } = req.body;
+  const user = await getUserAccount(email, password);
+  if (!user) {
+    return registerUser(req, res);
+  } else {
+    return loginUser(req, res);
   }
 };
