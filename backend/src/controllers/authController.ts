@@ -1,43 +1,27 @@
 import { Request, Response } from "express";
-import { createNewUserAccount, getUserAccount } from "../services/userServices";
 import { UserFromDb } from "../types/types";
 import jwt from "jsonwebtoken";
+import { getUserFromDb, saveUserToDb } from "../repositories/userRepo";
+import { hashPassword, verifyPassword } from "../utility/passwordHashVerify";
 
 const TEN_DAYS_IN_MS = 10 * 24 * 60 * 60 * 1000;
 
-export const registerUser = async (req: Request, res: Response) => {
+export const loginUser = async (
+  res: Response,
+  password: string,
+  user: UserFromDb | undefined,
+) => {
   try {
-    // 1. Grab data from the request body
-    const { email, password, name } = req.body;
-
-    // 2. Pass it to the service layer
-    const newUser: UserFromDb | undefined = (await createNewUserAccount({
-      email,
-      password,
-      name,
-    })) as UserFromDb | undefined;
-
-    // 3. Send back success response
-    return res
-      .status(201)
-      .json({ message: "User registered successfully", user: newUser });
-  } catch (error: any) {
-    return res.status(400).json({ error: error.message });
-  }
-};
-
-export const loginUser = async (req: Request, res: Response) => {
-  try {
-    const { email, password } = req.body;
-    const user = await getUserAccount(email, password);
     if (!user) {
       return res.status(401).json({ error: "Invalid email or password" });
     }
-    const token = jwt.sign(
-      { userId: user.id },
-      process.env.JWT_SECRET || "your_fallback_secret",
-      { expiresIn: "10d" },
-    );
+    const isPasswordValid = await verifyPassword(password, user.password_hash);
+    if (!isPasswordValid) {
+      return res.status(401).json({ error: "Invalid email or password" });
+    }
+    const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET || "", {
+      expiresIn: "10d",
+    });
     res.cookie("token", token, {
       httpOnly: true, // Prevents client-side scripts from reading the cookie
       secure: process.env.NODE_ENV === "production", // Use HTTPS only in production
@@ -50,16 +34,21 @@ export const loginUser = async (req: Request, res: Response) => {
       userId: user.id,
     });
   } catch (error: any) {
+    console.log(error);
     return res.status(500).json({ message: "Internal server Error" });
   }
 };
 
 export const loginOrSignupUser = async (req: Request, res: Response) => {
-  const { email, password, name } = req.body;
-  const user = await getUserAccount(email, password);
-  if (!user) {
-    return registerUser(req, res);
+  const { email, password } = req.body;
+  if (email === "" || password === "")
+    return res.status(400).json({ message: "invalid inputs and bad request" });
+  const user = await getUserFromDb(email);
+  if (user === undefined) {
+    const hashedPassword = await hashPassword(password);
+    const newUser = await saveUserToDb(email, hashedPassword);
+    return await loginUser(res, password, newUser);
   } else {
-    return loginUser(req, res);
+    return await loginUser(res, password, user);
   }
 };
