@@ -1,6 +1,10 @@
 import { useState, type SubmitEvent } from "react";
 
-const LoginSignup = () => {
+type loginProps = {
+  onSuccess: () => void;
+};
+
+const LoginSignup = ({ onSuccess }: loginProps) => {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
 
@@ -18,6 +22,7 @@ const LoginSignup = () => {
       });
       const data = await response.json();
       console.log(data);
+      onSuccess();
       setEmail("");
       setPassword("");
     } catch (error) {
@@ -41,6 +46,7 @@ const LoginSignup = () => {
           id="email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
+          autoComplete="true"
         />
       </div>
       <div className="flex flex-col p-1 mb-1">
