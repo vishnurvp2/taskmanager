@@ -73,3 +73,18 @@ export const verifyUser = (req: Request, res: Response) => {
     return res.status(400).json("authentication faild");
   }
 };
+
+export const logoutUser = (req: Request, res: Response) => {
+  console.log("logout");
+
+  // Clear the cookie by setting its maxAge/expires to the past
+  res.clearCookie("token", {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production", // Must match login config
+    sameSite: "strict",
+    maxAge: TEN_DAYS_IN_MS,
+  });
+
+  // Send a success status back to your React app
+  return res.status(200).json({ message: "Logged out successfully" });
+};

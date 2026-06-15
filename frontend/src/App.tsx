@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import LoginSignup from "./components/loginSignup";
 import Dashboard from "./components/dashboard";
 import LoadingSpinner from "./components/loadingSpinner";
+import LogoutButton from "./components/logout";
+import UserProfileButton from "./components/userProfileButton";
 
 interface User {
   id: number;
@@ -51,6 +53,10 @@ function App() {
       <h1 className="my-10 text-center text-4xl/9 font-medium tracking-tight text-orange-900">
         Task Manager
       </h1>
+      <div className="flex flex-row-reverse mr-3 gap-6">
+        {authenticated && <LogoutButton setAuthenticated={setAuthenticated} />}
+        {authenticated && <UserProfileButton />}
+      </div>
       <div>{user?.email}</div>
       {authenticated ? (
         <Dashboard />
