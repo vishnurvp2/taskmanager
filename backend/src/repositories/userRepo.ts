@@ -16,3 +16,8 @@ export const getUserFromDb = (email: string) => {
   const userData = getUserStatement.get(email) as UserFromDb | undefined;
   return userData;
 };
+export const getUserWithIdFromDb = (id: number) => {
+  const getUserStatement = Database.prepare("SELECT * FROM users WHERE id = ?");
+  const userData = getUserStatement.get(id) as UserFromDb | undefined;
+  return userData;
+};

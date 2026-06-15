@@ -1,10 +1,19 @@
 import { useState, type SubmitEvent } from "react";
 
+interface User {
+  id: number;
+  created_at: string;
+  email: string;
+  name: string | null;
+  password_hash: string;
+}
+
 type loginProps = {
   onSuccess: () => void;
+  onDataChange: (user: User) => void;
 };
 
-const LoginSignup = ({ onSuccess }: loginProps) => {
+const LoginSignup = ({ onSuccess, onDataChange }: loginProps) => {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
 
@@ -23,6 +32,7 @@ const LoginSignup = ({ onSuccess }: loginProps) => {
       const data = await response.json();
       console.log(data);
       onSuccess();
+      onDataChange(data.user);
       setEmail("");
       setPassword("");
     } catch (error) {

@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import { createNewTask, getAllTasks } from "../services/tasksServices";
 
 export const createTask = async (req: Request, res: Response) => {
-  const { title, description, status, priority, due_date } = req.body;
+  const { title, description, status, priority, due_date } = req.body.task;
   const result = await createNewTask({
     user_id: res.locals.userId,
     title,

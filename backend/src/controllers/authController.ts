@@ -1,7 +1,11 @@
 import { Request, Response } from "express";
 import { UserFromDb } from "../types/types";
 import jwt from "jsonwebtoken";
-import { getUserFromDb, saveUserToDb } from "../repositories/userRepo";
+import {
+  getUserFromDb,
+  getUserWithIdFromDb,
+  saveUserToDb,
+} from "../repositories/userRepo";
 import { hashPassword, verifyPassword } from "../utility/passwordHashVerify";
 
 const TEN_DAYS_IN_MS = 10 * 24 * 60 * 60 * 1000;
@@ -28,10 +32,12 @@ export const loginUser = async (
       sameSite: "strict", // Protects against CSRF attacks
       maxAge: TEN_DAYS_IN_MS, // Forces cookie deletion after exactly 10 days
     });
-
+    if (user !== undefined) {
+      user.password_hash = "";
+    }
     return res.status(200).json({
       message: "Login successful",
-      userId: user.id,
+      user,
     });
   } catch (error: any) {
     console.log(error);
@@ -50,5 +56,20 @@ export const loginOrSignupUser = async (req: Request, res: Response) => {
     return await loginUser(res, password, newUser);
   } else {
     return await loginUser(res, password, user);
+  }
+};
+
+export const verifyUser = (req: Request, res: Response) => {
+  if (res.locals.userId !== undefined) {
+    const user = getUserWithIdFromDb(res.locals.userId);
+    if (user !== undefined) {
+      user.password_hash = "";
+    }
+    return res.status(200).json({
+      message: "Login successful",
+      user,
+    });
+  } else {
+    return res.status(400).json("authentication faild");
   }
 };

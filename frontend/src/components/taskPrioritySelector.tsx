@@ -1,7 +1,7 @@
 import React from "react";
 
 // Define the available priority types
-export type TaskPriority = "low" | "medium" | "heigh";
+export type TaskPriority = "low" | "medium" | "high";
 
 interface TaskPrioritySelectorProps {
   priority: TaskPriority;
@@ -12,7 +12,7 @@ export const TaskPrioritySelector: React.FC<TaskPrioritySelectorProps> = ({
   priority,
   setPriority,
 }) => {
-  const priorities: TaskPriority[] = ["low", "medium", "heigh"];
+  const priorities: TaskPriority[] = ["low", "medium", "high"];
 
   // Map priorities to matching tailwind color badges
   const getColorClass = (type: TaskPriority, isActive: boolean) => {
@@ -23,7 +23,7 @@ export const TaskPrioritySelector: React.FC<TaskPrioritySelectorProps> = ({
         return "bg-emerald-500 text-white shadow-sm";
       case "medium":
         return "bg-amber-500 text-white shadow-sm";
-      case "heigh":
+      case "high":
         return "bg-rose-500 text-white shadow-sm";
     }
   };

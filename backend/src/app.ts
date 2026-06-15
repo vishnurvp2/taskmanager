@@ -20,7 +20,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(Logger);
 
 app.get("/", (req: Request, res: Response): void => {
-  res.send("Hello");
+  res.status(200).send("Hello");
 });
 
 app.use(cookieParser());
