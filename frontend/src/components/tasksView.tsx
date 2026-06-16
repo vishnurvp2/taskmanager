@@ -1,12 +1,14 @@
 import TaskCard from "./taskCard";
 import type { Task } from "../types/types";
+import type { Dispatch, SetStateAction } from "react";
 
 interface TasksViewProps {
   tasks: Task[];
   className?: string;
+  setTasks: Dispatch<SetStateAction<Task[]>>;
 }
 
-export const TasksView = ({ tasks, className }: TasksViewProps) => {
+export const TasksView = ({ tasks, className, setTasks }: TasksViewProps) => {
   if (tasks.length === 0) {
     return (
       <div
@@ -31,7 +33,7 @@ export const TasksView = ({ tasks, className }: TasksViewProps) => {
       {/* Responsive layout grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
         {tasks.map((task) => (
-          <TaskCard key={task.id} task={task} />
+          <TaskCard key={task.id} task={task} setTasks={setTasks} />
         ))}
       </div>
     </div>

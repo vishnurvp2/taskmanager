@@ -16,7 +16,7 @@ export const createTask = async (req: Request, res: Response) => {
 };
 
 export const editTask = async (req: Request, res: Response) => {
-  const { id, title, description, status, priority, due_date } = req.body.task;
+  const { id, title, description, status, priority, due_date } = req.body;
   const result = await updateTaskInDb({
     id,
     user_id: res.locals.userId,
@@ -31,7 +31,7 @@ export const editTask = async (req: Request, res: Response) => {
 export const deleteTask = async (req: Request, res: Response) => {
   const id = req.body.taskId;
   const result = await deleteTaskInDb(id);
-  return res.status(200).json(result);
+  return res.status(200).json("deleted");
 };
 
 export const getTasks = async (req: Request, res: Response) => {

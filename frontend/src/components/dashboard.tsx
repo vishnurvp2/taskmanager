@@ -24,7 +24,7 @@ const Dashboard = () => {
   return (
     <div className="flex flex-row">
       <AddTask className="w-2/10" tasks={tasks} setTasks={setTasks} />
-      <TasksView tasks={tasks} className="w-6/10" />
+      <TasksView tasks={tasks} className="w-6/10" setTasks={setTasks} />
       <div className="w-2/10"></div>
     </div>
   );
