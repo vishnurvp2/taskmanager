@@ -42,6 +42,72 @@ export const saveTaskToDb = (data: Task) => {
 
   return result;
 };
+
+export const updateTaskInDb = (data: Partial<TaskFromDb>) => {
+  const updates: string[] = [];
+  const values: any[] = [];
+
+  if (data.title !== undefined) {
+    updates.push("title = ?");
+    values.push(data.title);
+  }
+
+  if (data.description !== undefined) {
+    updates.push("description = ?");
+    values.push(data.description);
+  }
+
+  if (data.status !== undefined) {
+    updates.push("status = ?");
+    values.push(data.status);
+  }
+
+  if (data.priority !== undefined) {
+    updates.push("priority = ?");
+    values.push(data.priority);
+  }
+
+  if (data.due_date !== undefined) {
+    updates.push("due_date = ?");
+    values.push(data.due_date);
+  }
+
+  // Nothing to update
+  if (updates.length === 0) {
+    return undefined;
+  }
+
+  values.push(data.id);
+
+  const queryString = `
+    UPDATE tasks
+    SET ${updates.join(", ")}
+    WHERE id = ?
+    RETURNING *;
+  `;
+
+  const update = Database.prepare(queryString);
+  const result = update.get(...values) as TaskFromDb | undefined;
+
+  return result;
+};
+
+export const deleteTaskInDb = (id: number) => {
+  if (id === undefined) {
+    return;
+  }
+  const queryString = `
+    DELETE FROM tasks
+    WHERE id = ?
+    RETURNING *;
+  `;
+
+  const update = Database.prepare(queryString);
+  const result = update.get(id) as TaskFromDb | undefined;
+
+  return result;
+};
+
 export const getAllTasksOfUserFromDb = (userId: number) => {
   const insert = Database.prepare("SELECT * FROM tasks where user_id = ?;");
   const result = insert.all(userId) as unknown as TaskFromDb[] | undefined;

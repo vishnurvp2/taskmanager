@@ -1,6 +1,7 @@
 import {
   getAllTasksOfUserFromDb,
   saveTaskToDb,
+  updateTaskToDb,
 } from "../repositories/taskRepo";
 import { Task } from "../types/types";
 
@@ -10,4 +11,8 @@ export const getAllTasks = (user_id: number) => {
 
 export const createNewTask = (task: Task) => {
   return saveTaskToDb(task);
+};
+
+export const editExistingTask = (task: Task) => {
+  return updateTaskToDb(task);
 };
