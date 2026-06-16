@@ -16,9 +16,11 @@ type loginProps = {
 const LoginSignup = ({ onSuccess, onDataChange }: loginProps) => {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
+  const [error, setError] = useState<string>("");
 
   const handleSubmit = async (event: SubmitEvent<HTMLFormElement>) => {
     event.preventDefault();
+    setError("");
 
     try {
       const response = await fetch("http://localhost:3000/auth/login_signup", {
@@ -30,6 +32,10 @@ const LoginSignup = ({ onSuccess, onDataChange }: loginProps) => {
         body: JSON.stringify({ email: email, password: password }),
       });
       const data = await response.json();
+      if (!response.ok) {
+        setError(data.message || "Email or password is wrong");
+        return;
+      }
       console.log(data);
       onSuccess();
       onDataChange(data.user);
@@ -37,6 +43,7 @@ const LoginSignup = ({ onSuccess, onDataChange }: loginProps) => {
       setPassword("");
     } catch (error) {
       console.log(error);
+      setError("Unable to connect to server");
     }
   };
 
@@ -72,6 +79,11 @@ const LoginSignup = ({ onSuccess, onDataChange }: loginProps) => {
           onChange={(e) => setPassword(e.target.value)}
         />
       </div>
+      {error && (
+        <div className="bg-red-100 border border-red-300 text-red-700 p-2 rounded-md my-2 text-sm">
+          {error}
+        </div>
+      )}
       <button
         className="border-1 border-orange-700 p-2 my-5 mx-auto w-4/6 rounded-lg hover:bg-orange-300 active:bg-orange-500"
         type="submit"

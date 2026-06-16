@@ -4,6 +4,7 @@ import Dashboard from "./components/dashboard";
 import LoadingSpinner from "./components/loadingSpinner";
 import LogoutButton from "./components/logout";
 import UserProfileButton from "./components/userProfileButton";
+import ProfileView from "./components/userProfileView";
 
 interface User {
   id: number;
@@ -17,6 +18,7 @@ function App() {
   const [authenticated, setAuthenticated] = useState<boolean>(false);
   const [user, setUser] = useState<User>();
   const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [showProfile, setShowProfile] = useState(false);
   useEffect(() => {
     const makeRequest = async () => {
       try {
@@ -55,7 +57,12 @@ function App() {
       </h1>
       <div className="flex flex-row-reverse mr-3 gap-6">
         {authenticated && <LogoutButton setAuthenticated={setAuthenticated} />}
-        {authenticated && <UserProfileButton />}
+        {authenticated && (
+          <UserProfileButton onClick={() => setShowProfile(true)} />
+        )}
+        {showProfile && (
+          <ProfileView user={user} onClose={() => setShowProfile(false)} />
+        )}
       </div>
       <div>{user?.email}</div>
       {authenticated ? (
