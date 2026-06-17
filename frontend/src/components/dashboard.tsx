@@ -1,11 +1,11 @@
 import AddTask from "./addTask";
 import TasksView from "./tasksView";
 
-import type { Task } from "../types/types"; // Adjust path as needed
+import type { TaskFromDb } from "../types/types"; // Adjust path as needed
 import { useEffect, useState } from "react";
 
 const Dashboard = () => {
-  const [tasks, setTasks] = useState<Task[]>([]);
+  const [tasks, setTasks] = useState<TaskFromDb[]>([]);
   useEffect(() => {
     const getTasks = async () => {
       const response = await fetch("http://localhost:3000/tasks/", {
@@ -16,6 +16,7 @@ const Dashboard = () => {
         },
       });
       const data = await response.json();
+      console.log(data);
       setTasks(data);
     };
     getTasks();

@@ -1,10 +1,10 @@
 import { useState, type ChangeEvent } from "react";
-import type { Task } from "../types/types"; // Adjust path as needed
+import type { TaskFromDb } from "../types/types"; // Adjust path as needed
 import type { Dispatch, SetStateAction } from "react";
 
 interface TaskCardProps {
-  task: Task;
-  setTasks: Dispatch<SetStateAction<Task[]>>;
+  task: TaskFromDb;
+  setTasks: Dispatch<SetStateAction<TaskFromDb[]>>;
 }
 
 const TaskCard = ({ task, setTasks }: TaskCardProps) => {
@@ -36,7 +36,7 @@ const TaskCard = ({ task, setTasks }: TaskCardProps) => {
     const data = await response.json();
     setATask(data);
   };
-  const handleDeleteTask = async (id: string) => {
+  const handleDeleteTask = async (id: number) => {
     const response = await fetch("http://localhost:3000/tasks/delete", {
       method: "DELETE",
       credentials: "include",

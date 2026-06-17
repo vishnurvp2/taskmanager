@@ -3,22 +3,14 @@ import LoginSignup from "./components/loginSignup";
 import Dashboard from "./components/dashboard";
 import LoadingSpinner from "./components/loadingSpinner";
 import LogoutButton from "./components/logout";
-import UserProfileButton from "./components/userProfileButton";
-import ProfileView from "./components/userProfileView";
-
-interface User {
-  id: number;
-  created_at: string;
-  email: string;
-  name: string | null;
-  password_hash: string;
-}
+// import UserProfileButton from "./components/userProfileButton";
+// import ProfileView from "./components/userProfileView";
+import type { UserFromDb } from "./types/types";
 
 function App() {
-  const [authenticated, setAuthenticated] = useState<boolean>(false);
-  const [user, setUser] = useState<User>();
+  const [user, setUser] = useState<UserFromDb>();
   const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [showProfile, setShowProfile] = useState(false);
+  // const [showProfile, setShowProfile] = useState(false);
   useEffect(() => {
     const makeRequest = async () => {
       try {
@@ -26,14 +18,13 @@ function App() {
           credentials: "include",
         });
         if (response.ok) {
-          const user = await response.json();
-          setAuthenticated(true);
-          setUser(user);
+          const data = await response.json();
+          setUser(data.user);
         } else {
-          setAuthenticated(false);
+          setUser(undefined);
         }
       } catch (error) {
-        setAuthenticated(false);
+        setUser(undefined);
         console.log(error);
       } finally {
         setIsLoading(false);
@@ -41,10 +32,6 @@ function App() {
     };
     makeRequest();
   }, []);
-
-  const handleLoginSignupData = (user: User) => {
-    setUser(user);
-  };
 
   if (isLoading) {
     return <LoadingSpinner />;
@@ -56,23 +43,15 @@ function App() {
         Task Manager
       </h1>
       <div className="flex flex-row-reverse mr-3 gap-6">
-        {authenticated && <LogoutButton setAuthenticated={setAuthenticated} />}
-        {authenticated && (
+        {user && <LogoutButton setUser={setUser} />}
+        {/* {user && (
           <UserProfileButton onClick={() => setShowProfile(true)} />
         )}
         {showProfile && (
           <ProfileView user={user} onClose={() => setShowProfile(false)} />
-        )}
+        )} */}
       </div>
-      <div>{user?.email}</div>
-      {authenticated ? (
-        <Dashboard />
-      ) : (
-        <LoginSignup
-          onSuccess={() => setAuthenticated(true)}
-          onDataChange={() => handleLoginSignupData}
-        />
-      )}
+      {user ? <Dashboard /> : <LoginSignup setUser={setUser} />}
     </>
   );
 }

@@ -1,8 +1,10 @@
+import type { UserFromDb } from "../types/types";
+
 interface MyComponentProps {
-  setAuthenticated: React.Dispatch<React.SetStateAction<boolean>>;
+  setUser: React.Dispatch<React.SetStateAction<UserFromDb | undefined>>;
 }
 
-const LogoutButton = ({ setAuthenticated }: MyComponentProps) => {
+const LogoutButton = ({ setUser }: MyComponentProps) => {
   const handleLogout = async () => {
     try {
       // 1. Optional: Call your backend api to invalidate the token/session
@@ -10,7 +12,7 @@ const LogoutButton = ({ setAuthenticated }: MyComponentProps) => {
         method: "GET",
         credentials: "include",
       });
-      setAuthenticated(false);
+      setUser(undefined);
     } catch (error) {
       console.error("Server-side logout failed:", error);
     }

@@ -9,7 +9,7 @@ import {
   TaskPrioritySelector,
   type TaskPriority,
 } from "./taskPrioritySelector";
-import { type Task } from "../types/types";
+import { type Task, type TaskFromDb } from "../types/types";
 
 interface Task1 {
   title: string;
@@ -21,7 +21,7 @@ interface Task1 {
 interface AddTaskProps {
   className?: string;
   tasks: Task[];
-  setTasks: Dispatch<SetStateAction<Task[]>>;
+  setTasks: Dispatch<SetStateAction<TaskFromDb[]>>;
 }
 
 const AddTask = ({ className = "", tasks = [], setTasks }: AddTaskProps) => {

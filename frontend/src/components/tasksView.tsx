@@ -1,11 +1,11 @@
 import TaskCard from "./taskCard";
-import type { Task } from "../types/types";
+import type { TaskFromDb } from "../types/types";
 import type { Dispatch, SetStateAction } from "react";
 
 interface TasksViewProps {
-  tasks: Task[];
+  tasks: TaskFromDb[];
   className?: string;
-  setTasks: Dispatch<SetStateAction<Task[]>>;
+  setTasks: Dispatch<SetStateAction<TaskFromDb[]>>;
 }
 
 export const TasksView = ({ tasks, className, setTasks }: TasksViewProps) => {

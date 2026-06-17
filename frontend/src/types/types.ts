@@ -1,18 +1,36 @@
-export type TaskStatus = "pending" | "in_progress" | "completed";
-export type TaskPriority = "low" | "medium" | "high";
-
-export interface Task {
-  id: string;
-  title: string;
-  description: string;
-  status: TaskStatus;
-  priority: TaskPriority;
+export interface User {
+  email: string;
+  password: string;
 }
 
-export interface UserProfile {
-  id: number;
+export interface UserFromDb {
+  id: string;
   email: string;
-  name: string | null;
-  gender?: string | null;
-  description?: string | null;
+  password: string;
+  username?: string;
+  name?: string;
+  created_at?: string;
+  updated_at?: string;
+  description?: string;
+}
+
+export interface Task {
+  user_id: string;
+  title: string;
+  description?: string;
+  status?: "pending" | "in_progress" | "completed";
+  priority?: "low" | "medium" | "high";
+  due_date?: string;
+}
+
+export interface TaskFromDb {
+  id: number;
+  user_id: string;
+  title: string;
+  description?: string;
+  priority: "low" | "medium" | "high";
+  status: "pending" | "in_progress" | "completed";
+  due_date?: string;
+  created_at: string;
+  updated_at: string;
 }

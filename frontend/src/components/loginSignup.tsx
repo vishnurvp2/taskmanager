@@ -1,19 +1,11 @@
 import { useState, type SubmitEvent } from "react";
-
-interface User {
-  id: number;
-  created_at: string;
-  email: string;
-  name: string | null;
-  password_hash: string;
-}
+import type { UserFromDb } from "../types/types";
 
 type loginProps = {
-  onSuccess: () => void;
-  onDataChange: (user: User) => void;
+  setUser: React.Dispatch<React.SetStateAction<UserFromDb | undefined>>;
 };
 
-const LoginSignup = ({ onSuccess, onDataChange }: loginProps) => {
+const LoginSignup = ({ setUser }: loginProps) => {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [error, setError] = useState<string>("");
@@ -37,11 +29,11 @@ const LoginSignup = ({ onSuccess, onDataChange }: loginProps) => {
         return;
       }
       console.log(data);
-      onSuccess();
-      onDataChange(data.user);
+      setUser(data.user);
       setEmail("");
       setPassword("");
     } catch (error) {
+      setUser(undefined);
       console.log(error);
       setError("Unable to connect to server");
     }

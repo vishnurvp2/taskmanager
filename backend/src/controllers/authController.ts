@@ -36,7 +36,7 @@ export const loginUser = async (
       user.password = "";
     }
     return res.status(200).json({
-      ...user,
+      user,
     });
   } catch (error: any) {
     console.log(error);
