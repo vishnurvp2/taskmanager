@@ -61,7 +61,6 @@ export const loginOrSignupUser = async (req: Request, res: Response) => {
 export const verifyUser = async (req: Request, res: Response) => {
   if (res.locals.userId !== undefined) {
     const user = await getUserWithIdFromDb(res.locals.userId);
-    console.log(user);
     return res.status(200).json({
       message: "Login successful",
       user,
@@ -72,8 +71,6 @@ export const verifyUser = async (req: Request, res: Response) => {
 };
 
 export const logoutUser = (req: Request, res: Response) => {
-  console.log("logout");
-
   // Clear the cookie by setting its maxAge/expires to the past
   res.clearCookie("token", {
     httpOnly: true,

@@ -3,9 +3,8 @@ import LoginSignup from "./components/loginSignup";
 import Dashboard from "./components/dashboard";
 import LoadingSpinner from "./components/loadingSpinner";
 import LogoutButton from "./components/logout";
-// import UserProfileButton from "./components/userProfileButton";
-// import ProfileView from "./components/userProfileView";
 import type { UserFromDb } from "./types/types";
+import UserProfileButton from "./components/userProfileButton";
 
 function App() {
   const [user, setUser] = useState<UserFromDb>();
@@ -44,12 +43,7 @@ function App() {
       </h1>
       <div className="flex flex-row-reverse mr-3 gap-6">
         {user && <LogoutButton setUser={setUser} />}
-        {/* {user && (
-          <UserProfileButton onClick={() => setShowProfile(true)} />
-        )}
-        {showProfile && (
-          <ProfileView user={user} onClose={() => setShowProfile(false)} />
-        )} */}
+        {user && <UserProfileButton />}
       </div>
       {user ? <Dashboard /> : <LoginSignup setUser={setUser} />}
     </>

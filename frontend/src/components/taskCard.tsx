@@ -1,4 +1,4 @@
-import { useState, type ChangeEvent } from "react";
+import { type ChangeEvent } from "react";
 import type { TaskFromDb } from "../types/types"; // Adjust path as needed
 import type { Dispatch, SetStateAction } from "react";
 
@@ -7,34 +7,43 @@ interface TaskCardProps {
   setTasks: Dispatch<SetStateAction<TaskFromDb[]>>;
 }
 
-const TaskCard = ({ task, setTasks }: TaskCardProps) => {
-  const [atask, setATask] = useState(task);
+type Priority = TaskFromDb["priority"];
+type Status = TaskFromDb["status"];
 
+const TaskCard = ({ task, setTasks }: TaskCardProps) => {
   const handleTaskPriorityChange = async (
     e: ChangeEvent<HTMLSelectElement>,
   ) => {
+    const priority = e.target.value as Priority;
     const response = await fetch("http://localhost:3000/tasks/edit", {
       method: "POST",
       credentials: "include",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ ...task, priority: e.target.value }),
+      body: JSON.stringify({ ...task, priority: priority }),
     });
-    const data = await response.json();
-    setATask(data);
+    if (response.ok) {
+      setTasks((prev) =>
+        prev.map((t) => (t.id === task.id ? { ...t, priority: priority } : t)),
+      );
+    }
   };
   const handleTaskStatusChange = async (e: ChangeEvent<HTMLSelectElement>) => {
+    const status = e.target.value as Status;
     const response = await fetch("http://localhost:3000/tasks/edit", {
       method: "POST",
       credentials: "include",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ ...task, status: e.target.value }),
+      body: JSON.stringify({ ...task, status: status }),
     });
-    const data = await response.json();
-    setATask(data);
+    if (response.ok) {
+      setTasks((prev) =>
+        prev.map((t) => (t.id === task.id ? { ...t, status: status } : t)),
+      );
+    }
   };
   const handleDeleteTask = async (id: number) => {
     const response = await fetch("http://localhost:3000/tasks/delete", {
@@ -76,9 +85,9 @@ const TaskCard = ({ task, setTasks }: TaskCardProps) => {
             {task.title}
           </h3>
           <select
-            className={`text-xs font-medium px-2.5 py-0.5 rounded-full border cursor-pointer ${priorityStyles[atask.priority]}`}
+            className={`text-xs font-medium px-2.5 py-0.5 rounded-full border cursor-pointer ${priorityStyles[task.priority]}`}
             onChange={handleTaskPriorityChange}
-            value={atask.priority}
+            value={task.priority}
           >
             <option value="low">Low</option>
             <option value="medium">Medium</option>
@@ -92,8 +101,8 @@ const TaskCard = ({ task, setTasks }: TaskCardProps) => {
 
       <div className="flex items-center justify-between border-t border-gray-50 pt-3">
         <select
-          className={`text-xs font-semibold px-2.5 py-1 rounded-md cursor-pointer ${statusStyles[atask.status]}`}
-          value={atask.status}
+          className={`text-xs font-semibold px-2.5 py-1 rounded-md cursor-pointer ${statusStyles[task.status]}`}
+          value={task.status}
           onChange={handleTaskStatusChange}
         >
           <option value="in_progress">In progress</option>

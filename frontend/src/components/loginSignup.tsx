@@ -28,7 +28,6 @@ const LoginSignup = ({ setUser }: loginProps) => {
         setError(data.message || "Email or password is wrong");
         return;
       }
-      console.log(data);
       setUser(data.user);
       setEmail("");
       setPassword("");
