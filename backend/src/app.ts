@@ -1,4 +1,3 @@
-// Initializes the Express application and middleware.
 import express, { Request, Response } from "express";
 import cors from "cors";
 import authRouter from "./routes/authRouter";

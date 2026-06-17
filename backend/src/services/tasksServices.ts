@@ -3,16 +3,16 @@ import {
   saveTaskToDb,
   updateTaskInDb,
 } from "../repositories/taskRepo";
-import { Task } from "../types/types";
+import { Task, TaskFromDb } from "../types/types";
 
-export const getAllTasks = (user_id: number) => {
-  return getAllTasksOfUserFromDb(user_id);
+export const getAllTasks = async (user_id: string) => {
+  return await getAllTasksOfUserFromDb(user_id);
 };
 
-export const createNewTask = (task: Task) => {
-  return saveTaskToDb(task);
+export const createNewTask = async (task: Task) => {
+  return await saveTaskToDb(task);
 };
 
-export const editExistingTask = (task: Task) => {
-  return updateTaskInDb(task);
+export const editExistingTask = async (task: TaskFromDb) => {
+  return await updateTaskInDb(task);
 };

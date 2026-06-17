@@ -16,22 +16,21 @@ export const createTask = async (req: Request, res: Response) => {
 };
 
 export const editTask = async (req: Request, res: Response) => {
-  const { id, title, description, status, priority, due_date } = req.body;
-  const result = await updateTaskInDb({
-    id,
-    user_id: res.locals.userId,
-    title,
-    description,
-    status,
-    priority,
-    due_date,
-  });
-  return res.status(200).json(result);
+  const result = await updateTaskInDb(req.body);
+  if (result) {
+    return res.status(200).json(result);
+  } else {
+    return res.status(500).json("Internal Server Error");
+  }
 };
 export const deleteTask = async (req: Request, res: Response) => {
   const id = req.body.taskId;
   const result = await deleteTaskInDb(id);
-  return res.status(200).json("deleted");
+  if (result) {
+    return res.status(200).json("deleted");
+  } else {
+    return res.status(500).json("Internal Server Error");
+  }
 };
 
 export const getTasks = async (req: Request, res: Response) => {

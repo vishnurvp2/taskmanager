@@ -26,15 +26,15 @@ export const initializeDatabase = async () => {
   await sql`
   CREATE TABLE IF NOT EXISTS tasks (
       id BIGSERIAL PRIMARY KEY,
-        user_id UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE,
-        title TEXT NOT NULL,
-        description TEXT,
-        priority TEXT CHECK (priority IN ('low', 'medium', 'high')),
-        status TEXT DEFAULT 'pending'
-            CHECK (status IN ('pending', 'in_progress', 'completed')),
-        due_date TIMESTAMPTZ,
-        created_at TIMESTAMPTZ DEFAULT NOW(),
-        updated_at TIMESTAMPTZ DEFAULT NOW()
+      user_id UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+      title TEXT NOT NULL,
+      description TEXT,
+      priority TEXT CHECK (priority IN ('low', 'medium', 'high')),
+      status TEXT DEFAULT 'pending'
+          CHECK (status IN ('pending', 'in_progress', 'completed')),
+      due_date TIMESTAMPTZ,
+      created_at TIMESTAMPTZ DEFAULT NOW(),
+      updated_at TIMESTAMPTZ DEFAULT NOW()
     );
   `;
   console.log("database initialized");

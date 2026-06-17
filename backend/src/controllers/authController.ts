@@ -19,7 +19,7 @@ export const loginUser = async (
     if (!user) {
       return res.status(401).json({ error: "Invalid email or password" });
     }
-    const isPasswordValid = await verifyPassword(password, user.password_hash);
+    const isPasswordValid = await verifyPassword(password, user.password);
     if (!isPasswordValid) {
       return res.status(401).json({ error: "Invalid email or password" });
     }
@@ -33,11 +33,10 @@ export const loginUser = async (
       maxAge: TEN_DAYS_IN_MS, // Forces cookie deletion after exactly 10 days
     });
     if (user !== undefined) {
-      user.password_hash = "";
+      user.password = "";
     }
     return res.status(200).json({
-      message: "Login successful",
-      user,
+      ...user,
     });
   } catch (error: any) {
     console.log(error);
@@ -50,7 +49,7 @@ export const loginOrSignupUser = async (req: Request, res: Response) => {
   if (email === "" || password === "")
     return res.status(400).json({ message: "invalid inputs and bad request" });
   const user = await getUserFromDb(email);
-  if (user === undefined) {
+  if (user === null) {
     const hashedPassword = await hashPassword(password);
     const newUser = await saveUserToDb(email, hashedPassword);
     return await loginUser(res, password, newUser);
@@ -59,12 +58,10 @@ export const loginOrSignupUser = async (req: Request, res: Response) => {
   }
 };
 
-export const verifyUser = (req: Request, res: Response) => {
+export const verifyUser = async (req: Request, res: Response) => {
   if (res.locals.userId !== undefined) {
-    const user = getUserWithIdFromDb(res.locals.userId);
-    if (user !== undefined) {
-      user.password_hash = "";
-    }
+    const user = await getUserWithIdFromDb(res.locals.userId);
+    console.log(user);
     return res.status(200).json({
       message: "Login successful",
       user,
