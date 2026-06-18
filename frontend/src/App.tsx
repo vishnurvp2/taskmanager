@@ -5,6 +5,7 @@ import LoadingSpinner from "./components/loadingSpinner";
 import LogoutButton from "./components/logout";
 import type { UserFromDb } from "./types/types";
 import UserProfileButton from "./components/userProfileButton";
+import { API_URL } from "./config/api";
 
 function App() {
   const [user, setUser] = useState<UserFromDb>();
@@ -13,7 +14,7 @@ function App() {
   useEffect(() => {
     const makeRequest = async () => {
       try {
-        const response = await fetch("http://localhost:3000/auth/verify_user", {
+        const response = await fetch(`${API_URL}/auth/verify_user`, {
           credentials: "include",
         });
         if (response.ok) {

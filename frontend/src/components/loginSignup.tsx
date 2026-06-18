@@ -1,5 +1,6 @@
 import { useState, type SubmitEvent } from "react";
 import type { UserFromDb } from "../types/types";
+import { API_URL } from "../config/api";
 
 type loginProps = {
   setUser: React.Dispatch<React.SetStateAction<UserFromDb | undefined>>;
@@ -15,7 +16,7 @@ const LoginSignup = ({ setUser }: loginProps) => {
     setError("");
 
     try {
-      const response = await fetch("http://localhost:3000/auth/login_signup", {
+      const response = await fetch(`${API_URL}/auth/login_signup`, {
         method: "POST",
         credentials: "include",
         headers: {

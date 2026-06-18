@@ -29,7 +29,7 @@ export const loginUser = async (
     res.cookie("token", token, {
       httpOnly: true, // Prevents client-side scripts from reading the cookie
       secure: process.env.NODE_ENV === "production", // Use HTTPS only in production
-      sameSite: "strict", // Protects against CSRF attacks
+      sameSite: "none", // Protects against CSRF attacks
       maxAge: TEN_DAYS_IN_MS, // Forces cookie deletion after exactly 10 days
     });
     if (user !== undefined) {
@@ -75,7 +75,7 @@ export const logoutUser = (req: Request, res: Response) => {
   res.clearCookie("token", {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production", // Must match login config
-    sameSite: "strict",
+    sameSite: "none",
     maxAge: TEN_DAYS_IN_MS,
   });
 

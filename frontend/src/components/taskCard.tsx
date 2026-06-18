@@ -1,6 +1,7 @@
 import { type ChangeEvent } from "react";
 import type { TaskFromDb } from "../types/types"; // Adjust path as needed
 import type { Dispatch, SetStateAction } from "react";
+import { API_URL } from "../config/api";
 
 interface TaskCardProps {
   task: TaskFromDb;
@@ -15,7 +16,7 @@ const TaskCard = ({ task, setTasks }: TaskCardProps) => {
     e: ChangeEvent<HTMLSelectElement>,
   ) => {
     const priority = e.target.value as Priority;
-    const response = await fetch("http://localhost:3000/tasks/edit", {
+    const response = await fetch(`${API_URL}/tasks/edit`, {
       method: "POST",
       credentials: "include",
       headers: {
@@ -31,7 +32,7 @@ const TaskCard = ({ task, setTasks }: TaskCardProps) => {
   };
   const handleTaskStatusChange = async (e: ChangeEvent<HTMLSelectElement>) => {
     const status = e.target.value as Status;
-    const response = await fetch("http://localhost:3000/tasks/edit", {
+    const response = await fetch(`${API_URL}/tasks/edit`, {
       method: "POST",
       credentials: "include",
       headers: {
@@ -46,7 +47,7 @@ const TaskCard = ({ task, setTasks }: TaskCardProps) => {
     }
   };
   const handleDeleteTask = async (id: number) => {
-    const response = await fetch("http://localhost:3000/tasks/delete", {
+    const response = await fetch(`${API_URL}/tasks/delete`, {
       method: "DELETE",
       credentials: "include",
       headers: {

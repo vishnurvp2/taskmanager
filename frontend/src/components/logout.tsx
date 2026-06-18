@@ -1,3 +1,4 @@
+import { API_URL } from "../config/api";
 import type { UserFromDb } from "../types/types";
 
 interface MyComponentProps {
@@ -8,7 +9,7 @@ const LogoutButton = ({ setUser }: MyComponentProps) => {
   const handleLogout = async () => {
     try {
       // 1. Optional: Call your backend api to invalidate the token/session
-      await fetch("http://localhost:3000/auth/logout", {
+      await fetch(`${API_URL}/auth/logout`, {
         method: "GET",
         credentials: "include",
       });

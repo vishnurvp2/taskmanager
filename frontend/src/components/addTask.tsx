@@ -10,6 +10,7 @@ import {
   type TaskPriority,
 } from "./taskPrioritySelector";
 import { type Task, type TaskFromDb } from "../types/types";
+import { API_URL } from "../config/api";
 
 interface Task1 {
   title: string;
@@ -28,7 +29,7 @@ const AddTask = ({ className = "", tasks = [], setTasks }: AddTaskProps) => {
   const [currentStatus, setCurrentStatus] = useState<TaskStatus>("pending");
   const [priority, setPriority] = useState<TaskPriority>("medium");
   const addTaskPost = async (task: Task1) => {
-    const response = await fetch("http://localhost:3000/tasks/", {
+    const response = await fetch(`${API_URL}/tasks/`, {
       method: "POST",
       credentials: "include",
       headers: {

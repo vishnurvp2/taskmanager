@@ -3,12 +3,13 @@ import TasksView from "./tasksView";
 
 import type { TaskFromDb } from "../types/types"; // Adjust path as needed
 import { useEffect, useState } from "react";
+import { API_URL } from "../config/api";
 
 const Dashboard = () => {
   const [tasks, setTasks] = useState<TaskFromDb[]>([]);
   useEffect(() => {
     const getTasks = async () => {
-      const response = await fetch("http://localhost:3000/tasks/", {
+      const response = await fetch(`${API_URL}/tasks/`, {
         method: "GET",
         credentials: "include",
         headers: {
