@@ -28,7 +28,7 @@ export const loginUser = async (
     });
     res.cookie("token", token, {
       httpOnly: true, // Prevents client-side scripts from reading the cookie
-      secure: process.env.NODE_ENV === "production", // Use HTTPS only in production
+      secure: true, // Use HTTPS only in production
       sameSite: "none", // Protects against CSRF attacks
       maxAge: TEN_DAYS_IN_MS, // Forces cookie deletion after exactly 10 days
     });
@@ -74,7 +74,7 @@ export const logoutUser = (req: Request, res: Response) => {
   // Clear the cookie by setting its maxAge/expires to the past
   res.clearCookie("token", {
     httpOnly: true,
-    secure: process.env.NODE_ENV === "production", // Must match login config
+    secure: true, // Must match login config
     sameSite: "none",
     maxAge: TEN_DAYS_IN_MS,
   });

@@ -15,7 +15,11 @@ const app = express();
 //   }),
 // );
 
-const allowedOrigins = ["http://localhost:5173", "http://localhost:4173"];
+const allowedOrigins = [
+  "http://localhost:5173",
+  "http://localhost:4173",
+  "https://taskmanager-2ca.pages.dev/",
+];
 app.use(
   cors({
     origin: (origin, callback) => {
