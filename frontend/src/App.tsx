@@ -38,16 +38,18 @@ function App() {
   }
 
   return (
-    <>
-      <h1 className="my-10 text-center text-4xl/9 font-medium tracking-tight text-orange-900">
+    <div className="flex flex-col">
+      <h1 className="my-5 text-center text-4xl/9 font-medium tracking-tight text-orange-900">
         Task Manager
       </h1>
       <div className="flex flex-row-reverse mr-3 gap-6">
         {user && <LogoutButton setUser={setUser} />}
         {user && <UserProfileButton />}
       </div>
-      {user ? <Dashboard /> : <LoginSignup setUser={setUser} />}
-    </>
+      <div className="">
+        {user ? <Dashboard /> : <LoginSignup setUser={setUser} />}
+      </div>
+    </div>
   );
 }
 

@@ -23,7 +23,7 @@ export const TasksView = ({ tasks, className, setTasks }: TasksViewProps) => {
   }
 
   return (
-    <div className={`space-y-4 ${className}`}>
+    <div className={`space-y-4 p-6 ${className}`}>
       <div className="flex items-center justify-between">
         <h2 className="text-lg font-bold text-gray-900">
           Your Tasks ({tasks.length})

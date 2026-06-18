@@ -1,5 +1,9 @@
 import postgres from "postgres";
-require("dotenv").config();
+import dotenv from "dotenv";
+dotenv.config({
+  path: `.env.${process.env.NODE_ENV || "development"}`,
+});
+
 const connectionString = process.env.DATABASE_URL;
 if (!connectionString) {
   throw new Error("DATABASE_URL is not defined");

@@ -56,7 +56,7 @@ const AddTask = ({ className = "", tasks = [], setTasks }: AddTaskProps) => {
   };
   return (
     <form
-      className={`p-6 max-w-md mx-auto bg-white rounded-xl shadow-md space-y-5 border border-gray-100 ${className}`}
+      className={`p-6 max-w-md bg-white rounded-xl shadow-md space-y-5 border border-gray-100 ${className}`}
       onSubmit={handleSubmit}
       action={""}
     >

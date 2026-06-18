@@ -1,7 +1,10 @@
 // The entry point of the application.
 import app from "./app";
 import { initializeDatabase } from "./config/db";
-require("dotenv").config();
+import dotenv from "dotenv";
+dotenv.config({
+  path: `.env.${process.env.NODE_ENV || "development"}`,
+});
 const port = process.env.PORT || 3000;
 async function start() {
   await initializeDatabase();

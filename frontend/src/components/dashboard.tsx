@@ -23,10 +23,17 @@ const Dashboard = () => {
   }, []);
 
   return (
-    <div className="flex flex-row">
-      <AddTask className="w-2/10" tasks={tasks} setTasks={setTasks} />
-      <TasksView tasks={tasks} className="w-6/10" setTasks={setTasks} />
-      <div className="w-2/10"></div>
+    <div className="flex flex-row justify-evenly portrait:flex-col portrait:gap-4 portrait:items-center">
+      <AddTask
+        className="w-3/10 portrait:w-full"
+        tasks={tasks}
+        setTasks={setTasks}
+      />
+      <TasksView
+        tasks={tasks}
+        className="w-6/10 portrait:w-full"
+        setTasks={setTasks}
+      />
     </div>
   );
 };

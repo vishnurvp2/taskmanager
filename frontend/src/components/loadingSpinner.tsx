@@ -1,27 +1,17 @@
-const LoadingSpinner = ({ size = "h-8 w-8", color = "text-blue-600" }) => {
+const LoadingSpinner = () => {
   return (
-    <div className="flex items-center justify-center" role="status">
-      <svg
-        className={`animate-spin ${size} ${color}`}
-        xmlns="http://w3.org"
-        fill="none"
-        viewBox="0 0 24 24"
-      >
-        <circle
-          className="opacity-25"
-          cx="12"
-          cy="12"
-          r="10"
-          stroke="currentColor"
-          strokeWidth="4"
-        ></circle>
-        <path
-          className="opacity-75"
-          fill="currentColor"
-          d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-        ></path>
-      </svg>
-      <span className="sr-only">Loading...</span>
+    <div className="flex flex-col items-center justify-center min-h-screen px-4 text-center">
+      {/* Spinner */}
+      <div className="w-12 h-12 border-4 border-gray-300 border-t-blue-500 rounded-full animate-spin"></div>
+
+      {/* Message */}
+      <h2 className="mt-6 text-xl font-semibold">Starting Backend Server...</h2>
+
+      <p className="mt-2 max-w-md text-gray-600">
+        The backend is hosted on a free tier service and may take around 30–50
+        seconds to wake up after a period of inactivity. Please be patient while
+        the server starts.
+      </p>
     </div>
   );
 };
