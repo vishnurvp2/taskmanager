@@ -46,6 +46,22 @@ const TaskCard = ({ task, setTasks }: TaskCardProps) => {
       );
     }
   };
+  const handleTaskDueDateChange = async (e: ChangeEvent<HTMLInputElement>) => {
+    const date = e.target.value;
+    const response = await fetch(`${API_URL}/tasks/edit`, {
+      method: "POST",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ ...task, due_date: date }),
+    });
+    if (response.ok) {
+      setTasks((prev) =>
+        prev.map((t) => (t.id === task.id ? { ...t, due_date: date } : t)),
+      );
+    }
+  };
   const handleDeleteTask = async (id: number) => {
     const response = await fetch(`${API_URL}/tasks/delete`, {
       method: "DELETE",
@@ -73,10 +89,6 @@ const TaskCard = ({ task, setTasks }: TaskCardProps) => {
     in_progress: "bg-amber-100 text-amber-800",
     completed: "bg-emerald-100 text-emerald-800",
   };
-
-  // Format status strings for presentation (e.g., in_progress -> In Progress)
-  // const formatText = (text: string) =>
-  //   text.replace("_", " ").replace(/\b\w/g, (char) => char.toUpperCase());
 
   return (
     <div className="p-5 bg-white border border-gray-100 rounded-xl shadow-sm hover:shadow-md transition-shadow duration-200 flex flex-col justify-between gap-4">
@@ -106,11 +118,18 @@ const TaskCard = ({ task, setTasks }: TaskCardProps) => {
           value={task.status}
           onChange={handleTaskStatusChange}
         >
-          <option value="in_progress">In progress</option>
           <option value="pending">Pending</option>
+          <option value="in_progress">In progress</option>
           <option value="completed">Completed</option>
         </select>
-        <span className="text-xs text-gray-400 font-mono">#{task.id}</span>
+        <input
+          type="date"
+          className={`text-xs font-semibold px-2.5 py-1 rounded-md cursor-pointer`}
+          value={task.due_date?.split("T")[0]}
+          min={new Date().toISOString().split("T")[0]}
+          onChange={handleTaskDueDateChange}
+        ></input>
+        {/* <span className="text-xs text-gray-400 font-mono">#{task.id}</span> */}
         <button
           className="text-xs text-red-400 font-mono border-red-200 border-1 p-1 rounded-xl"
           onClick={() => handleDeleteTask(task.id)}

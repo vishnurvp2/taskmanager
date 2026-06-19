@@ -10,14 +10,7 @@ import {
   type TaskPriority,
 } from "./taskPrioritySelector";
 import { type Task, type TaskFromDb } from "../types/types";
-import { API_URL } from "../config/api";
-
-interface Task1 {
-  title: string;
-  description: string;
-  status: TaskStatus;
-  priority: TaskPriority;
-}
+import { saveTask } from "../api/tasks";
 
 interface AddTaskProps {
   className?: string;
@@ -28,16 +21,9 @@ interface AddTaskProps {
 const AddTask = ({ className = "", tasks = [], setTasks }: AddTaskProps) => {
   const [currentStatus, setCurrentStatus] = useState<TaskStatus>("pending");
   const [priority, setPriority] = useState<TaskPriority>("medium");
-  const addTaskPost = async (task: Task1) => {
-    const response = await fetch(`${API_URL}/tasks/`, {
-      method: "POST",
-      credentials: "include",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ task }),
-    });
-    const data = await response.json();
+  const [date, setDate] = useState(new Date().toISOString().split("T")[0]);
+  const addTaskPost = async (task: Task) => {
+    const data = await saveTask(task);
     setTasks([...tasks, data]);
   };
   const handleSubmit: SubmitEventHandler<HTMLFormElement> = (e) => {
@@ -50,8 +36,8 @@ const AddTask = ({ className = "", tasks = [], setTasks }: AddTaskProps) => {
       description: description,
       status: currentStatus,
       priority: priority,
+      due_date: date,
     };
-    // console.log(finalTaskData);
     addTaskPost(finalTaskData);
   };
   return (
@@ -103,6 +89,16 @@ const AddTask = ({ className = "", tasks = [], setTasks }: AddTaskProps) => {
         <div className="flex flex-col gap-1.5">
           <div className="text-sm font-semibold text-gray-700">Priority</div>
           <TaskPrioritySelector priority={priority} setPriority={setPriority} />
+        </div>
+        <div className="flex flex-col gap-1.5">
+          <label htmlFor="due_date">Due Date</label>
+          <input
+            type="date"
+            name="due_date"
+            id="due_date"
+            value={date}
+            onChange={(e) => setDate(e.target.value)}
+          />
         </div>
         <button
           className="px-3 py-2 text-md border-2 border-orange-800 rounded-xl w-full bg-orange-300 hover:bg-orange-100 active:bg-orange-400"

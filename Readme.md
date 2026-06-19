@@ -1,7 +1,8 @@
 # Full stack taskmanager application
 
-Frontend deployed on cloudflare pages at https://taskmanager-2ca.pages.dev
-Backend deployed on render at https://taskmanager-yiug.onrender.com
+- Frontend deployed on cloudflare pages at https://taskmanager-2ca.pages.dev
+- Backend deployed on render at https://taskmanager-yiug.onrender.com
+  - backdend is hosted with free tier on render.com, the bacekend sleeps when there is 30 minutes of inactivity. so, it need around 30 to 50 seconds to become functional.
 
 ## Backend
 
@@ -27,10 +28,10 @@ Backend deployed on render at https://taskmanager-yiug.onrender.com
 7. application will work smoothly.
 
 user profiles for testing:
+email : test1@gmail.com
+password: test1
+
 email : test2@gmail.com
 password: test2
-
-email : test3@gmail.com
-password: test3
 
 since the database file is also included in the project repo, there is some data exists in the sqlite database file.

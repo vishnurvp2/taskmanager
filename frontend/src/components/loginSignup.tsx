@@ -1,6 +1,6 @@
 import { useState, type SubmitEvent } from "react";
 import type { UserFromDb } from "../types/types";
-import { API_URL } from "../config/api";
+import { loginOrSignupUser } from "../api/users";
 
 type loginProps = {
   setUser: React.Dispatch<React.SetStateAction<UserFromDb | undefined>>;
@@ -14,18 +14,9 @@ const LoginSignup = ({ setUser }: loginProps) => {
   const handleSubmit = async (event: SubmitEvent<HTMLFormElement>) => {
     event.preventDefault();
     setError("");
-
     try {
-      const response = await fetch(`${API_URL}/auth/login_signup`, {
-        method: "POST",
-        credentials: "include",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ email: email, password: password }),
-      });
-      const data = await response.json();
-      if (!response.ok) {
+      const data = await loginOrSignupUser(email, password);
+      if (!data.user) {
         setError(data.message || "Email or password is wrong");
         return;
       }

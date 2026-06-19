@@ -23,18 +23,23 @@ export const TasksView = ({ tasks, className, setTasks }: TasksViewProps) => {
   }
 
   return (
-    <div className={`space-y-4 p-6 ${className}`}>
-      <div className="flex items-center justify-between">
-        <h2 className="text-lg font-bold text-gray-900">
-          Your Tasks ({tasks.length})
-        </h2>
-      </div>
-
-      {/* Responsive layout grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-        {tasks.map((task) => (
-          <TaskCard key={task.id} task={task} setTasks={setTasks} />
-        ))}
+    <div className={`space-y-4 ${className}`}>
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        {tasks
+          .filter((task) => task.status === "pending")
+          .map((task) => (
+            <TaskCard key={task.id} task={task} setTasks={setTasks} />
+          ))}
+        {tasks
+          .filter((task) => task.status === "in_progress")
+          .map((task) => (
+            <TaskCard key={task.id} task={task} setTasks={setTasks} />
+          ))}
+        {tasks
+          .filter((task) => task.status === "completed")
+          .map((task) => (
+            <TaskCard key={task.id} task={task} setTasks={setTasks} />
+          ))}
       </div>
     </div>
   );
