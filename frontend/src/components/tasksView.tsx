@@ -9,6 +9,7 @@ interface TasksViewProps {
 }
 
 export const TasksView = ({ tasks, className, setTasks }: TasksViewProps) => {
+  tasks = Array.from(tasks);
   if (tasks.length === 0) {
     return (
       <div

@@ -91,10 +91,12 @@ const TaskCard = ({ task, setTasks }: TaskCardProps) => {
   };
 
   return (
-    <div className="p-5 bg-white border border-gray-100 rounded-xl shadow-sm hover:shadow-md transition-shadow duration-200 flex flex-col justify-between gap-4">
+    <div
+      className={`p-5 bg-white border border-gray-100 rounded-xl shadow-sm hover:shadow-lg transition-shadow duration-100 flex flex-col justify-between gap-4`}
+    >
       <div className="space-y-2">
-        <div className="flex items-start justify-between gap-2">
-          <h3 className="font-semibold text-gray-900 text-base line-clamp-1">
+        <div className="flex flex-wrap items-start justify-between gap-2">
+          <h3 className="font-semibold text-gray-900 text-base">
             {task.title}
           </h3>
           <select
@@ -112,7 +114,7 @@ const TaskCard = ({ task, setTasks }: TaskCardProps) => {
         </p>
       </div>
 
-      <div className="flex items-center justify-between border-t border-gray-50 pt-3">
+      <div className="flex flex-wrap items-center justify-between border-t border-gray-50 pt-3">
         <select
           className={`text-xs font-semibold px-2.5 py-1 rounded-md cursor-pointer ${statusStyles[task.status]}`}
           value={task.status}
@@ -124,7 +126,7 @@ const TaskCard = ({ task, setTasks }: TaskCardProps) => {
         </select>
         <input
           type="date"
-          className={`text-xs font-semibold px-2.5 py-1 rounded-md cursor-pointer`}
+          className={`text-xs font-semibold px-2.5 py-2 rounded-md cursor-pointer `}
           value={task.due_date?.split("T")[0]}
           min={new Date().toISOString().split("T")[0]}
           onChange={handleTaskDueDateChange}
