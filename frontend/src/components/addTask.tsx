@@ -19,13 +19,17 @@ interface AddTaskProps {
 }
 
 const AddTask = ({ className = "", tasks = [], setTasks }: AddTaskProps) => {
+  const [taskData, setTaskData] = useState({ title: "", description: "" });
   const [currentStatus, setCurrentStatus] = useState<TaskStatus>("pending");
   const [priority, setPriority] = useState<TaskPriority>("medium");
   const [date, setDate] = useState(new Date().toISOString().split("T")[0]);
+
   const addTaskPost = async (task: Task) => {
     const data = await saveTask(task);
+    setTaskData({ title: "", description: "" });
     setTasks([...tasks, data]);
   };
+
   const handleSubmit: SubmitEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
@@ -61,6 +65,10 @@ const AddTask = ({ className = "", tasks = [], setTasks }: AddTaskProps) => {
             id="title"
             className="px-3 py-2 text-sm text-gray-900 border border-gray-200 rounded-lg bg-white shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors duration-150"
             placeholder="Enter task title..."
+            value={taskData.title}
+            onChange={(e) =>
+              setTaskData((prev) => ({ ...prev, title: e.target.value }))
+            }
           />
         </div>
 
@@ -77,6 +85,10 @@ const AddTask = ({ className = "", tasks = [], setTasks }: AddTaskProps) => {
             id="description"
             className="px-3 py-2 text-sm text-gray-900 border border-gray-200 rounded-lg bg-white shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors duration-150"
             placeholder="Enter task description..."
+            value={taskData.description}
+            onChange={(e) =>
+              setTaskData((prev) => ({ ...prev, description: e.target.value }))
+            }
           />
         </div>
         <div className="flex flex-col gap-1.5">
