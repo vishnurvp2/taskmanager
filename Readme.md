@@ -1,37 +1,160 @@
-# Full stack taskmanager application
+![logo](./frontend/public/favicon.svg)
 
-- Frontend deployed on cloudflare pages at https://taskmanager-2ca.pages.dev
-- Backend deployed on render at https://taskmanager-yiug.onrender.com
-  - backdend is hosted with free tier on render.com, the bacekend sleeps when there is 30 minutes of inactivity. so, it need around 30 to 50 seconds to become functional.
+# Task Manager
 
-## Backend
+TaskManager is a full-stack web application that helps users efficiently manage their daily tasks with secure authentication and an intuitive user interface.
 
-- Node js, Express js, Typescript
-- The login and signup is unified, if user already exist they will be loged in, else the account will be created and login response is sent back.
-- SQLite is used for persistant data storage, maintaining two tables, one for User data and one for Tasks data.
+## Live Demo
 
-## Frontend
+🚀 **Application:** https://taskmanager-2ca.pages.dev/
 
-- React, Typescript
-- The application landing page is Login/Signup page.
-- after login or signup, Dashboard is displayed.
-- users can create, edit, delete tasks.
+- **Frontend Hosting:** Cloudflare Pages
+- **Backend Hosting:** Render
+  > [!NOTE]
+  > The backend is hosted on Render's free tier and may take 30–60 seconds to wake up after a period of inactivity.
 
-### How to install the application?
+## Table of Content
 
-1. clone the repository.
-2. create seperate terminal instances for backend and frontend
-3. install dependencies on both (npm install)
-4. npm run dev for development server on both instances.
-5. open the frontend vite sever address in browser
-6. make sure the backend server is also running.
-7. application will work smoothly.
+- [Description](#description)
+- [Key Feature](#key-features)
+- [Technologies Used](#technologies-used)
+- [Prerequisites](#prerequisites)
+- [Installation](#installation)
+- [Screen Shot](#screen-shot)
+- [Api Documentaion](#api-documentation)
+- [End Notes](#end-notes)
 
-user profiles for testing:
-email : test1@gmail.com
-password: test1
+## Description
 
-email : test2@gmail.com
-password: test2
+TaskManager is a full-stack task management application that helps users organize, track, and manage their daily tasks through a modern and responsive web interface. Users can securely create accounts, authenticate using JWT-based authentication, and manage their personal task lists with features such as task creation, updating, completion tracking, and deletion.
 
-since the database file is also included in the project repo, there is some data exists in the sqlite database file.
+The frontend is built with React, TypeScript, JavaScript, JSX, Vite, and Tailwind CSS, providing a fast and responsive user experience. The backend is powered by Node.js and Express.js, exposing RESTful APIs for user authentication and task management. Task and user data are stored in a PostgreSQL database hosted on Supabase, while JSON is used for communication between the frontend and backend.
+
+Security is implemented using JWT authentication, HTTP-only cookies, password hashing, and protected API endpoints to ensure that users can access only their own data. The application is deployed using Cloudflare Pages for the frontend and Render for the backend, demonstrating a complete production-ready full-stack architecture.
+
+This project showcases practical full-stack development skills, including frontend development, backend API design, database integration, authentication and authorization, deployment, and modern web application architecture.
+
+# Key Features
+
+- 🔐 Secure user registration and login using JWT authentication
+- 🔄 Automatic JWT verification and authentication persistence across page refreshes.
+- 👤 User-specific task management with protected routes and APIs
+- ✅ Create, view, update, and delete tasks (CRUD operations)
+- 📌 Mark tasks as completed or pending
+- 🔄 Persistent task storage using PostgreSQL
+- 🍪 Secure authentication using HTTP-only cookies
+- 📱 Responsive user interface built with React and Tailwind CSS
+- ⚡ Fast frontend development and build process with Vite
+- 🔍 Real-time task updates without page refreshes
+- 🛡️ Authorization checks to ensure users can access only their own tasks
+- 🌐 RESTful API architecture using Node.js and Express.js
+- 🚀 Production deployment with Cloudflare Pages (Frontend) and Render (Backend)
+- 🎨 Clean and modern user experience
+- 📝 Form validation and error handling for improved reliability
+
+## Technologies Used
+
+- **Frontend**: React, TypeScript, JavaScript, JSX, Tailwind CSS, Vite
+
+- **Backend**: Node.js, Express.js
+
+- **Database**: PostgreSQL (Supabase)
+
+- **Authentication & Security**: JSON Web Tokens (JWT), HTTP-Only Cookies, bcryptjs, cookie-parser, CORS
+
+- **API & Data Format**: REST API, JSON
+
+- **Database Connectivity**: postgress (node.js package)
+
+- **Environment Management**: dotenv
+
+- **Version Control**: Git, GitHub
+
+- **Deployment**: Cloudflare Pages (Frontend), Render (Backend)
+
+- **Package Management**: npm
+
+## Prerequisites
+
+Node < v24.15.0\
+Npm < 11.12.1
+
+## Installation
+
+**1. Clone the repository:**
+
+```Bash
+git clone https://github.com/vishnurvp2/taskmanager.git
+cd taskmanager
+```
+
+**2. Install dependencies:**
+
+1. Backend dependencies
+
+```Bash
+cd taskmanager/backend
+npm install
+```
+
+2. Frontend dependencies
+
+```Bash
+cd taskmanager/frontend
+npm install
+```
+
+**3. Create environment files**
+
+```Bash
+cd taskmanager/backend
+printf "PORT=\nDATABASE_URL=\nJWT_SECRET=\n" > .env.development
+printf "PORT=\nDATABASE_URL=\nJWT_SECRET=\n" > .env.production
+
+cd taskmanager/frontend
+printf "VITE_API_URL=\n" > .env.development
+printf "VITE_API_URL=\n" > .env.production
+```
+
+- populate environment variables
+- save the env files
+- create working PostgreSQL database hosted on Supabase or any other provides
+- provide database connection string in the DATABASE_URL variable.
+  > Note: The application is configured to use a PostgreSQL database hosted on Supabase by default. If you prefer, you can modify the database configuration and use any PostgreSQL-compatible database provider instead.
+
+**4. Run the Servers**
+
+1. Backend server
+
+```bash
+npm run dev
+```
+
+2. Frontend server
+
+```bash
+npm run dev
+```
+
+## Screen shot
+
+![output](./frontend/public/og-image.png)
+
+## API Documentation
+
+Backend server running on `http://localhost:3000`
+
+| Endpoints            | Method | Input                         | Output                  |
+| -------------------- | ------ | ----------------------------- | ----------------------- |
+| `/`                  | `GET`  | -                             | `Hello` string          |
+| `/auth/verify_user`  | `GET`  | user_id extracted from cookie | `user` Object           |
+| `/auth/login_signup` | `POST` | `email`, `password`           | `user` Object           |
+| `/auth/logout`       | `GET`  | -                             | deletes cookie          |
+| `/tasks`             | `GET`  | -                             | Array of `Task` Objects |
+| `/tasks`             | `POST` | `Task` Object                 | `Task` Object           |
+| `/tasks/edit`        | `POST` | `Task` Object                 | `Task updated` String   |
+| `/tasks/delete`      | `POST` | `taskId` Number               | `deleted` String        |
+
+## End Notes
+
+Thank you
