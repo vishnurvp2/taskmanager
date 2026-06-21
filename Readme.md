@@ -90,30 +90,22 @@ cd taskmanager
 
 **2. Install dependencies:**
 
-1. Backend dependencies
+1. Backend and Frontend dependencies
 
 ```Bash
-cd taskmanager/backend
-npm install
-```
-
-2. Frontend dependencies
-
-```Bash
-cd taskmanager/frontend
-npm install
+(cd backend && npm install)
+(cd frontend && npm install)
 ```
 
 **3. Create environment files**
 
 ```Bash
-cd taskmanager/backend
-printf "PORT=\nDATABASE_URL=\nJWT_SECRET=\n" > .env.development
-printf "PORT=\nDATABASE_URL=\nJWT_SECRET=\n" > .env.production
 
-cd taskmanager/frontend
-printf "VITE_API_URL=\n" > .env.development
-printf "VITE_API_URL=\n" > .env.production
+printf "PORT=\nDATABASE_URL=\nJWT_SECRET=\n" > backend/.env.development
+printf "PORT=\nDATABASE_URL=\nJWT_SECRET=\n" > backend/.env.production
+
+printf "VITE_API_URL=\n" > frontend/.env.development
+printf "VITE_API_URL=\n" > frontend/.env.production
 ```
 
 - populate environment variables
