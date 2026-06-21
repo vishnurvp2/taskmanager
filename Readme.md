@@ -7,7 +7,7 @@ TaskManager is a full-stack web application that helps users efficiently manage 
 ## Live Demo
 
 🚀 **Application:** https://taskmanager-2ca.pages.dev/
-
+- **Demo Video:** https://www.youtube.com/watch?v=k9rYWpddX4Y
 - **Frontend Hosting:** Cloudflare Pages
 - **Backend Hosting:** Render
   > [!NOTE]
