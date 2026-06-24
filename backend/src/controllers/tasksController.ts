@@ -7,6 +7,8 @@ import { Task } from "../types/types";
 export const createTaskByPrompt = async (req: Request, res: Response) => {
   const { prompt } = req.body;
   const tasks: Task[] = await generateTask(prompt);
+  console.log(prompt);
+  console.log(tasks);
   const results = [];
   for (const task of tasks) {
     const { title, description, status, priority, due_date } = task;
