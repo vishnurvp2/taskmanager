@@ -60,10 +60,8 @@ async function generateTask(prompt: string) {
       },
     });
     const taskData = JSON.parse(response.text as string);
-    console.log(taskData);
     return Array.isArray(taskData) ? taskData : [];
   } catch (error) {
-    console.log(error);
     return [];
   }
 }
