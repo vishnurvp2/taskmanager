@@ -12,5 +12,4 @@ async function start() {
     console.log(`Server running on http://localhost:${port}`);
   });
 }
-
 start();

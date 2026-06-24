@@ -1,6 +1,34 @@
 import { Request, Response } from "express";
 import { createNewTask, getAllTasks } from "../services/tasksServices";
 import { deleteTaskInDb, updateTaskInDb } from "../repositories/taskRepo";
+import { generateTask } from "../services/geminiService";
+import { Task } from "../types/types";
+
+export const createTaskByPrompt = async (req: Request, res: Response) => {
+  const { prompt } = req.body;
+  const tasks: Task[] = await generateTask(prompt);
+  const results = [];
+  for (const task of tasks) {
+    const { title, description, status, priority, due_date } = task;
+    const result = await createNewTask({
+      user_id: res.locals.userId,
+      title,
+      description,
+      status,
+      priority,
+      due_date,
+    });
+    results.push(result);
+  }
+  if (results.length === 0) {
+    return res.status(503).json({
+      success: false,
+      message:
+        "The AI assistant is temporarily busy or unable to parse the request. Please try again or add the task manually.",
+    });
+  }
+  return res.status(200).json({ data: results, success: true });
+};
 
 export const createTask = async (req: Request, res: Response) => {
   const { title, description, status, priority, due_date } = req.body.task;
