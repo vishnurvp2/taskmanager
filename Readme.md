@@ -7,6 +7,7 @@ TaskManager is a full-stack web application that helps users efficiently manage 
 ## Live Demo
 
 🚀 **Application:** https://taskmanager-2ca.pages.dev/
+
 - **Demo Video:** https://www.youtube.com/watch?v=k9rYWpddX4Y
 - **Frontend Hosting:** Cloudflare Pages
 - **Backend Hosting:** Render
@@ -26,9 +27,9 @@ TaskManager is a full-stack web application that helps users efficiently manage 
 
 ## Description
 
-TaskManager is a full-stack task management application that helps users organize, track, and manage their daily tasks through a modern and responsive web interface. Users can securely create accounts, authenticate using JWT-based authentication, and manage their personal task lists with features such as task creation, updating, completion tracking, and deletion.
+TaskManager is a full-stack task management application that helps users organize, track, and manage their daily tasks through a modern and responsive web interface. Users can securely create accounts, authenticate using JWT-based authentication, and manage their personal task lists with features such as task creation, updating, completion tracking, deletion, and AI-assisted task entry.
 
-The frontend is built with React, TypeScript, JavaScript, JSX, Vite, and Tailwind CSS, providing a fast and responsive user experience. The backend is powered by Node.js and Express.js, exposing RESTful APIs for user authentication and task management. Task and user data are stored in a PostgreSQL database hosted on Supabase, while JSON is used for communication between the frontend and backend.
+Instead of filling in a form for every task, users can add one or multiple tasks by writing a prompt, making task capture faster and more conversational. The frontend is built with React, TypeScript, JavaScript, JSX, Vite, and Tailwind CSS, providing a fast and responsive user experience. The backend is powered by Node.js and Express.js, exposing RESTful APIs for user authentication and task management. Task and user data are stored in a PostgreSQL database hosted on Supabase, while JSON is used for communication between the frontend and backend.
 
 Security is implemented using JWT authentication, HTTP-only cookies, password hashing, and protected API endpoints to ensure that users can access only their own data. The application is deployed using Cloudflare Pages for the frontend and Render for the backend, demonstrating a complete production-ready full-stack architecture.
 
@@ -51,6 +52,7 @@ This project showcases practical full-stack development skills, including fronte
 - 🚀 Production deployment with Cloudflare Pages (Frontend) and Render (Backend)
 - 🎨 Clean and modern user experience
 - 📝 Form validation and error handling for improved reliability
+- 🤖 Add one or multiple tasks using AI-powered prompts instead of filling a form
 
 ## Technologies Used
 
@@ -101,8 +103,8 @@ cd taskmanager
 
 ```Bash
 
-printf "PORT=\nDATABASE_URL=\nJWT_SECRET=\n" > backend/.env.development
-printf "PORT=\nDATABASE_URL=\nJWT_SECRET=\n" > backend/.env.production
+printf "PORT=\nDATABASE_URL=\nJWT_SECRET=\nGEMINI_API_KEY=\n" > backend/.env.development
+printf "PORT=\nDATABASE_URL=\nJWT_SECRET=\nGEMINI_API_KEY=\n" > backend/.env.production
 
 printf "VITE_API_URL=\n" > frontend/.env.development
 printf "VITE_API_URL=\n" > frontend/.env.production
